@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Calculadora</title>
+    </head>
+    <style>
+        div {
+            display: inline;
+            border-color: black;
+            border-style: solid;
+            border-radius: 5px;
+            padding-left: 2px;
+            padding-right: 2px;
+            position: relative;
+        }
+        div:hover{
+            background-color: rgb(166, 247, 222);
+        }
+        section{
+            padding: 2px;
+            margin: 2px;
+            text-align: center;                       
+        }
+        fieldset{
+            width: 200px;
+        }
+        /*Definição dos tamanhos dos botões*/
+        .clBotaoSize1{
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .clBotaoSize2{
+            padding-left: 7px;
+            padding-right: 7px;
+        }
+        .clBotaoSize3{
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+        .clBotaoSize4{
+            padding-left: 11px;
+            padding-right: 11px;
+        }
+        #idMemMenos{
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        #idMS, #idExpo, #idMemMais{
+            padding-left: 3px;
+            padding-right: 3px;
+        }
+        #idInver,  #idApaga{
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        #idTela{
+            width: 130px;
+        }
+       
+    </style>
+    <body>
+        <fieldset>
+            <section>
+                <form action="">
+                    <input type="text" id="idTela">
+                    <div id="idApaga" onclick="apagar()">⌫</div>    
+                </form>
+            </section>
+            <section>
+                <div class="clBotaoSize2" onclick="por()">%</div>
+                <div class="clBotaoSize1" onclick="raiz()">√</div>
+                <div id="idExpo" onclick="exp()">x^2</div>
+                <div class="clBotaoSize3" onclick="dividir()">/</div>
+                <div onclick="memClear()">MC</div>            
+            </section>
+            <section> 
+                <div class="clBotaoSize1" onclick="sete()">7</div>
+                <div class="clBotaoSize1" onclick="oito()">8</div>
+                <div class="clBotaoSize1" onclick="nove()">9</div>
+                <div class="clBotaoSize4" onclick="vezes()">*</div>
+                <div id="idMS" onclick="memStore()">MS</div>           
+            </section>
+            <section>
+                <div class="clBotaoSize1" onclick="quatro()">4</div>
+                <div class="clBotaoSize1" onclick="cinco()">5</div>
+                <div class="clBotaoSize1" onclick="seis()">6</div>
+                <div class="clBotaoSize1" onclick="mais()">+</div>
+                <div id="idMemMais" onclick="memMais()">M+</div>     
+            </section>
+            <section>
+                <div class="clBotaoSize1" onclick="um()">1</div>
+                <div class="clBotaoSize1" onclick="dois()">2</div>
+                <div class="clBotaoSize1" onclick="tres()">3</div>
+                <div class="clBotaoSize3" onclick="menos()">-</div>
+                <div id="idMemMenos" onclick="memMenos()">M-</div>
+            </section> 
+            <section>
+                <div class="clBotaoSize3" onclick="ponto()">.</div>
+                <div class="clBotaoSize1" onclick="zero()">0</div>
+                <div id="idInver" onclick="inver()">1/x</div>
+                <div class="clBotaoSize1" onclick="igual()">=</div>
+                <div id="idMR" onclick="memRecall()">MR</div>
+            </section> 
+        </fieldset> 
+        <script>
+            var tela = document.querySelector("#idTela")
+            function um() {
+                tela.value = tela.value + 1
+            }
+            function dois() {
+                tela.value = tela.value + 2
+            }
+            function tres() {
+                tela.value = tela.value + 3
+            }
+            function quatro() {
+                tela.value = tela.value + 4
+            }
+            function cinco() {
+                tela.value = tela.value + 5
+            }
+            function seis() {
+                tela.value = tela.value + 6
+            }
+            function sete() {
+                tela.value = tela.value + 7
+            }
+            function oito() {
+                tela.value = tela.value + 8
+            }
+            function nove() {
+                tela.value = tela.value + 9
+            }
+            function zero() {
+                tela.value = tela.value + 0
+            }
+            function ponto() {
+                tela.value = tela.value + "."
+            }
+
+            //memoria
+            var memoria = 0
+            var placeHolder = 0
+            function memStore() {
+                memoria = Number(tela.value)
+                tela.value = ""
+                tela.focus()
+            }
+            function memRecall() {
+                tela.focus()
+                tela.value = memoria
+            }
+            function memMais() {
+                placeHolder = Number(tela.value)
+                memoria = memoria + placeHolder
+                tela.focus()
+                tela.value = ""
+            }
+            function memMenos() {
+                placeHolder = Number(tela.value)
+                memoria = memoria - placeHolder
+                tela.focus()
+                tela.value = ""
+            }
+            function memClear() {
+                tela.focus()
+                memoria = ""
+            }
+
+            //operações
+            var placeHolderOperacoes = 0
+            var contaMais = 0
+            var contaMenos = 0
+            var contaVezes = 0
+            var contaDividir = 0
+            var resultado
+            
+            function igual() {
+
+                if (contaMais > 0) {
+                    resultado = placeHolderOperacoes + Number(tela.value)
+                }
+                if (contaMenos > 0) {
+                    resultado = placeHolderOperacoes - Number(tela.value)
+                }
+                if (contaVezes > 0) {
+                    resultado = placeHolderOperacoes * Number(tela.value)
+                }
+                if (contaDividir > 0) {
+                    resultado = (placeHolderOperacoes / Number(tela.value)).toFixed(2)
+                }
+                tela.value = resultado               
+                
+                contaMais = 0
+                contaMenos = 0
+                contaVezes = 0
+                contaDividir = 0
+                tela.focus()
+            }
+            
+            function mais() {
+                contaMais++
+                placeHolderOperacoes = Number(tela.value)
+                tela.value = ""
+                tela.focus()
+            }
+
+            function menos() {
+                contaMenos++
+                placeHolderOperacoes = Number(tela.value)
+                tela.value = ""
+                tela.focus()
+            }
+
+            function vezes() {
+                contaVezes++
+                placeHolderOperacoes = Number(tela.value)
+                tela.value = ""
+                tela.focus()
+            }
+
+            function dividir() {
+                contaDividir++
+                placeHolderOperacoes = Number(tela.value)
+                tela.value = ""
+                tela.focus()
+            }
+
+            function por() {
+                let por = Number(tela.value)
+                if (contaMais > 0) {
+                    resultado = placeHolderOperacoes + (placeHolderOperacoes*(por/100))
+                }
+                if (contaMenos > 0) {
+                    resultado = placeHolderOperacoes - (placeHolderOperacoes*(por/100))
+                }
+                if (contaVezes > 0) {
+                    resultado = placeHolderOperacoes * (por/100)
+                }
+                if (contaDividir > 0) {
+                    resultado = placeHolderOperacoes / (por/100)
+                }
+                tela.value = resultado
+
+                contaMais = 0
+                contaMenos = 0
+                contaVezes = 0
+                contaDividir = 0
+                tela.focus()
+            }
+
+            function raiz() {
+                resultado = Math.sqrt(Number(tela.value))
+                tela.value = resultado
+                tela.focus()
+            }
+
+            function exp() {
+                placeHolderOperacoes = Number(tela.value)            
+                resultado = placeHolderOperacoes * placeHolderOperacoes 
+                tela.value = resultado
+                tela.focus()
+            }
+
+            function inver() {
+                resultado = 1 / Number(tela.value)
+                tela.value = resultado
+                tela.focus()
+            }
+
+            function apagar() {
+                tela.value = ""
+                tela.focus()
+            }
+            
+        </script>     
+    </body>
+</html>
